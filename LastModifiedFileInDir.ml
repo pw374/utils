@@ -33,4 +33,4 @@ let rec find_latest_file dir =
     in
     loop ("", 0.0)
 
-let _ = print_endline (find_latest_file Sys.argv.(1))
+(* let _ = print_endline (find_latest_file Sys.argv.(1)) *)
