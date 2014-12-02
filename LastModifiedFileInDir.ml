@@ -23,14 +23,12 @@ let rec find_latest_file dir =
           x, sx.st_mtime
         | S_DIR ->
           aux (find_latest_file x)
-      | _ ->
-        latest, latest_date
+        | _ ->
+          latest, latest_date
       in
       match readdir d with
       | Some ("." | "..") -> loop (latest, latest_date)
-    | None -> latest
-    | Some x -> loop (aux (Filename.concat dir x))
+      | None -> latest
+      | Some x -> loop (aux (Filename.concat dir x))
     in
     loop ("", 0.0)
-
-let _ = print_endline (find_latest_file Sys.argv.(1))
