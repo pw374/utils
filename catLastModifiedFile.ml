@@ -1,4 +1,4 @@
-(* Output on stdout the contents of the last modified file in the given directory *)
+(* Output on stdout the contents of the last modified file in each given directory *)
 (* Licence: ISC *)
 (* (c) 2014 Philippe Wang <philippe.wang@gmail.com> *)
 open Printf
