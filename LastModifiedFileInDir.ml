@@ -32,3 +32,5 @@ let rec find_latest_file dir =
       | Some x -> loop (aux (Filename.concat dir x))
     in
     loop ("", 0.0)
+
+let _ = print_endline (find_latest_file Sys.argv.(1))
