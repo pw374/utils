@@ -11,7 +11,7 @@ let rec find_latest_file dir =
     let opendir d = try Some(opendir d) with _ -> None in
     let readdir = function
       | None -> None
-      | Some d -> try Some(readdir d) with End_of_file -> None in
+      | Some d -> try Some(readdir d) with End_of_file -> closedir d; None in
     let stat_dummy =
       { (stat Sys.argv.(0)) with st_kind = S_BLK; st_mtime = 0.0; } in
     let d = opendir dir in
