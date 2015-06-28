@@ -10,8 +10,12 @@ let rec find_latest_file dir =
   else
     let opendir d = try Some(opendir d) with _ -> None in
     let readdir = function
-      | None -> None
-      | Some d -> try Some(readdir d) with End_of_file -> closedir d; None in
+      | None ->
+        (* In this case, the dir was never opened, so no need to close it *)
+        None
+      | Some d ->
+        (* We always reach End_of_file, so the dir is always closed. *)
+        try Some(readdir d) with End_of_file -> closedir d; None in
     let stat_dummy =
       { (stat Sys.argv.(0)) with st_kind = S_BLK; st_mtime = 0.0; } in
     let d = opendir dir in
