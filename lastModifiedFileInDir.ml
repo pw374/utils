@@ -5,7 +5,7 @@ open Printf
 
 let rec find_latest_file (dir:string) : string option =
   let open Unix in
-  if (stat dir).st_kind <> S_DIR then
+  if (lstat dir).st_kind <> S_DIR then
     Some dir
   else
     let opendir d : Unix.dir_handle option = (**)
@@ -19,7 +19,7 @@ let rec find_latest_file (dir:string) : string option =
         (* All open dirs are eventually closed. *)
         try Some(readdir d) with End_of_file -> closedir d; None in
     let stat_dummy : Unix.stats =
-      { (stat Sys.argv.(0)) with st_kind = S_BLK; st_mtime = 0.0; } in
+      { (lstat Sys.argv.(0)) with st_kind = S_BLK; st_mtime = 0.0; } in
     let d = opendir dir in
     let rec loop (((latest : string option), (latest_date : float)) as r) =
       match readdir d with
@@ -35,7 +35,7 @@ let rec find_latest_file (dir:string) : string option =
              and not to iterate an unknown number of times. *)
           | None -> r
           | Some x ->
-            let sx = try stat x with _ -> stat_dummy in
+            let sx = try lstat x with _ -> stat_dummy in
             match sx.st_kind with
             | S_REG when sx.st_mtime > latest_date ->
               Some x, sx.st_mtime
